@@ -18,16 +18,24 @@ class Comment < ApplicationRecord
   ## Direct associations
 
   # Comment#commenter: returns a row from the users table associated to this comment by the author_id column
+  #Comment has a belongs_to association defined called 'commenter' with Class name 'User' and foreign key 'author_id' 
+  belongs_to( :commenter, class_name: "User", foreign_key: "author_id")
 
   # Comment#photo: returns a row from the photos table associated to this comment by the photo_id column
+  #Comment has a belongs_to association defined called 'photo' with Class name 'Photo' and foreign key 'photo_id'
+  belongs_to( :photo, class_name: "Photo", foreign_key: "photo_id")
 
-  def commenter
-    my_author_id = self.author_id
+  
 
-    matching_users = User.where({ :id => my_author_id })
+  #def commenter
+  #  my_author_id = self.author_id
 
-    the_user = matching_users.at(0)
+  #  matching_users = User.where({ :id => my_author_id })
 
-    return the_user
-  end
+  #  the_user = matching_users.at(0)
+
+  #  return the_user
+  #end
+
+
 end
