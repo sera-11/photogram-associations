@@ -22,14 +22,24 @@ class User < ApplicationRecord
   ## Direct associations
 
   # User#comments: returns rows from the comments table associated to this user by the author_id column
+  # User has a has_many association defined called 'comments' with Class name 'Comment' and foreign key 'author_id'
+  has_many( :comments, class_name: "Comment", foreign_key: "author_id")
 
   # User#own_photos: returns rows from the photos table  associated to this user by the owner_id column
+  #User has a has_many association defined called 'own_photos' with Class name 'Photo' and foreign key 'owner_id' 
+  has_many( :own_photos, class_name: "Photo", foreign_key: "owner_id")
 
   # User#likes: returns rows from the likes table associated to this user by the fan_id column
+ #User has a has_many association defined called 'likes' with Class name 'Like' and foreign key 'fan_id'
+ has_many( :likes, class_name: "Like", foreign_key: "fan_id")
+
 
   # User#sent_follow_requests: returns rows from the follow requests table associated to this user by the sender_id column
+  has_many(:sent_follow_requests, class_name: "FollowRequest", foreign_key: "sender_id" )
 
   # User#received_follow_requests: returns rows from the follow requests table associated to this user by the recipient_id column
+  has_many(:received_follow_requests, class_name: "FollowRequest", foreign_key: "recipient_id" )
+  
 
 
   ### Scoped direct associations
@@ -42,8 +52,11 @@ class User < ApplicationRecord
   ## Indirect associations
 
   # User#liked_photos: returns rows from the photos table associated to this user through its likes
+   # User has a has_many (many-to_many) association defined called 'liked_photos' through 'likes' and source 'photo' 
+  has_many(:liked_photos, through: :likes, source: :photo)
 
   # User#commented_photos: returns rows from the photos table associated to this user through its comments
+  has_many( :commented_photos, through: :comments, source: :photo )
 
 
   ### Indirect associations built on scoped associations
